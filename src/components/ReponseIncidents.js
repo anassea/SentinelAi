@@ -1,87 +1,65 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 
-const ResponseIncident = () => {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+function ReponseIncidents() {
+  const [recommendations, setRecommendations] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('http://localhost:5003/classification-report');
-        setData(response.data);
-        setLoading(false);
-      } catch (error) {
-        setError(error.message);
-        setLoading(false);
-      }
-    };
-
-    fetchData();
+    fetch('http://127.0.0.1:5003/classification-report')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to fetch: ' + response.status);
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (data.length === 0) {
+          console.log('No recommendations found.');
+        }
+        setRecommendations(data);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
   }, []);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  const tableStyle = {
+    width: '100%',
+    borderCollapse: 'collapse',
+  };
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
-  if (!data) {
-    return null;
-  }
+  const thTdStyle = {
+    border: '1px solid black',
+    padding: '8px',
+    textAlign: 'left',
+  };
 
   return (
     <div>
-      <h2>Rapport de classification :</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Type</th>
-            <th>Précision</th>
-            <th>Rappel</th>
-            <th>Score F1</th>
-            <th>Support</th>
-          </tr>
-        </thead>
-        <tbody>
-          {Object.entries(data.classification_report).map(([type, metrics]) => (
-            <tr key={type}>
-              <td>{type}</td>
-              <td>{metrics.precision.toFixed(2)}</td>
-              <td>{metrics.recall.toFixed(2)}</td>
-              <td>{metrics['f1-score'].toFixed(2)}</td>
-              <td>{metrics.support}</td>
+      <h1>Recommendations</h1>
+      {recommendations.length > 0 ? (
+        <table style={tableStyle}>
+          <thead>
+            <tr>
+              <th style={thTdStyle}>Type</th>
+              <th style={thTdStyle}>Recommendation</th>
+              <th style={thTdStyle}>Time</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-
-      <h2>Recommandations :</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Alerte</th>
-            <th>ID</th>
-            <th>Type</th>
-            <th>Recommandation</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.recommendations.map((recommendation, index) => (
-            <tr key={index}>
-              <td>{recommendation.Alerte}</td>
-              <td>{recommendation.ID}</td>
-              <td>{recommendation.Type}</td>
-              <td>{recommendation.Recommandation}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {recommendations.map((rec, index) => (
+              <tr key={rec.ID || index}>
+                <td style={thTdStyle}>{rec.event_type}</td>
+                <td style={thTdStyle}>{rec.recommendation}</td>
+                <td style={thTdStyle}>{rec.timestamp}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <p>No recommendations available.</p>
+      )}
     </div>
   );
-};
+}
 
-export default ResponseIncident;
+export default ReponseIncidents;
