@@ -1,71 +1,66 @@
 from flask import Flask, jsonify
-import pandas as pd
-from sklearn.model_selection import train_test_split, GridSearchCV
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import classification_report
+import json
 from flask_cors import CORS
+import pandas as pd
 
 app = Flask(__name__)
-CORS(app)  # This will enable CORS for all routes and methods
+CORS(app)  # Enable CORS to allow cross-origin requests
 
 
-def load_and_prepare_data():
-    # Reading the CSV file and preparing data
-    df = pd.read_csv("../../logs.csv")
-    df = pd.get_dummies(df, columns=['Utilisateur', 'Base_donnee'])
-    X = df.drop(['Timestamp', 'Type', 'Fichier', 'Description'], axis=1)
-    y = df['Type']
-    return train_test_split(X, y, test_size=0.2, random_state=42)
+def load_logs():
+    # Load data from a JSON file
+    with open('log.json', 'r') as file:
+        logs = json.load(file)
+    return logs
 
 
-def train_model(X_train, y_train):
-    # Define the hyperparameters grid
-    param_grid = {
-        'n_estimators': [50, 100, 150],
-        'max_depth': [None, 10, 20],
-        'min_samples_split': [2, 5, 10],
-        'min_samples_leaf': [1, 2, 4]
-    }
-    rf = RandomForestClassifier(random_state=42)
-    grid_search = GridSearchCV(rf, param_grid, cv=5, n_jobs=-1, verbose=2)
-    grid_search.fit(X_train, y_train)
-    return grid_search
+def preprocess_data(logs):
+    # Convert the loaded JSON logs into a DataFrame
+    df = pd.DataFrame(logs)
+
+    # Extract resource usage as integer values, handle NaN and format issues
+    df['cpu_usage'] = df['resource_usage'].apply(
+        lambda x: int(x['cpu'].replace('%', '')) if 'cpu' in x and x['cpu'].replace('%', '').isdigit() else 0)
+    df['ram_usage'] = df['resource_usage'].apply(
+        lambda x: int(x['ram'].replace('%', '')) if 'ram' in x and x['ram'].replace('%', '').isdigit() else 0)
+    df['storage_usage'] = df['resource_usage'].apply(
+        lambda x: int(x['storage'].replace('%', '')) if 'storage' in x and x['storage'].replace('%',
+                                                                                                '').isdigit() else 0)
+
+    # Convert 'http_status_code' to integer, handling NaN values by filling with 0
+    df['http_status'] = df['http_status_code'].fillna(0).astype(int)
+
+    # Clean up DataFrame by selecting necessary columns
+    return df[['timestamp', 'event_type', 'message', 'cpu_usage', 'ram_usage', 'storage_usage', 'http_status']]
+
+
+def analyze_logs(df):
+    # Simple analysis to generate recommendations based on log data
+    recommendations = []
+    for _, row in df.iterrows():
+        if row['event_type'] == 'error' and row['http_status'] == 401:
+            recommendations.append({
+                "timestamp": row['timestamp'],
+                "event_type": row['event_type'],
+                "recommendation": "Verify user credentials and security policies."
+            })
+        elif row['event_type'] == 'warning' and row['cpu_usage'] > 80:
+            recommendations.append({
+                "timestamp": row['timestamp'],
+                "event_type": row['event_type'],
+                "recommendation": "Consider upgrading CPU resources or optimizing system performance."
+            })
+
+    return recommendations
 
 
 @app.route('/classification-report', methods=['GET'])
-def get_classification_report():
-    X_train, X_test, y_train, y_test = load_and_prepare_data()
-    grid_search = train_model(X_train, y_train)
-    best_model = grid_search.best_estimator_
-    y_pred = best_model.predict(X_test)
-
-    # Generate classification report
-    report = classification_report(y_test, y_pred, output_dict=True, zero_division=0)
-
-    # Generate recommendations based on prediction
-    recommendations = {
-        "intrusion": "Implement an intrusion detection system and strengthen password security.",
-        "Sabotage": "Monitor suspicious user activities and restrict access to sensitive resources. Ensure regular data backup.",
-        "connexion": "Set up two-factor authentication to enhance connection security. Use VPNs for remote connections.",
-        "lecture": "Review file access permissions and restrict access to sensitive data. Monitor access to sensitive files.",
-        "écriture": "Strengthen access controls and limit write privileges to prevent unauthorized changes. Conduct regular audits of data modifications.",
-        "tentative": "Block access for suspicious users and revoke their access privileges. Review activity logs to identify unauthorized access attempts."
-    }
-
-    recommendations_list = [
-        {"Alert": idx + 1, "ID": df.loc[idx, 'Timestamp'], "Type": pred,
-         "Recommendation": recommendations.get(pred, "Normal state.")}
-        for idx, pred in enumerate(best_model.predict(X_test))
-    ]
-
-    response_data = {
-        "best_params": grid_search.best_params_,
-        "classification_report": report,
-        "recommendations": recommendations_list
-    }
-
-    return jsonify(response_data)
+def classification_report():
+    logs = load_logs()
+    data = preprocess_data(logs)
+    recommendations = analyze_logs(data)
+    return jsonify(recommendations)
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5003)
+    app.run(debug=True, host='0.0.0.0', port=5003)
