@@ -1,0 +1,161 @@
+{
+    "success": [
+        {
+            "timestamp": "2024-04-30T08:12:05",
+            "event_type": "success",
+            "message": "Connexion utilisateur r\u00c3\u00a9ussie",
+            "user_id": "john.doe",
+            "ip_address": "203.0.113.5",
+            "request_params": {
+                "username": "john.doe",
+                "password": "****"
+            },
+            "http_status_code": 200,
+            "resource_usage": {
+                "cpu": "20%",
+                "ram": "60%",
+                "storage": "50%"
+            }
+        },
+        {
+            "timestamp": "2024-04-30T08:15:30",
+            "event_type": "success",
+            "message": "Acc\u00c3\u00a8s au dossier partag\u00c3\u00a9 r\u00c3\u00a9ussi",
+            "user_id": "jane.smith",
+            "ip_address": "192.168.1.10",
+            "request_params": {
+                "path": "/shared/docs"
+            },
+            "http_status_code": 200,
+            "resource_usage": {
+                "cpu": "22%",
+                "ram": "62%",
+                "storage": "52%"
+            }
+        },
+        {
+            "timestamp": "2024-04-30T08:12:05",
+            "event_type": "success",
+            "message": "Connexion utilisateur r\u00c3\u00a9ussie",
+            "user_id": "john.doe",
+            "ip_address": "203.0.113.5",
+            "request_params": {
+                "username": "john.doe",
+                "password": "****"
+            },
+            "http_status_code": 200,
+            "resource_usage": {
+                "cpu": "20%",
+                "ram": "60%",
+                "storage": "50%"
+            }
+        },
+        {
+            "timestamp": "2024-04-30T08:15:30",
+            "event_type": "success",
+            "message": "Acc\u00c3\u00a8s au dossier partag\u00c3\u00a9 r\u00c3\u00a9ussi",
+            "user_id": "jane.smith",
+            "ip_address": "192.168.1.10",
+            "request_params": {
+                "path": "/shared/docs"
+            },
+            "http_status_code": 200,
+            "resource_usage": {
+                "cpu": "22%",
+                "ram": "62%",
+                "storage": "52%"
+            }
+        }
+    ],
+    "warning": [
+        {
+            "timestamp": "2024-04-30T08:18:45",
+            "event_type": "warning",
+            "message": "Taux d'utilisation du CPU \u00c3\u00a9lev\u00c3\u00a9",
+            "user_id": "System",
+            "ip_address": "192.168.1.2",
+            "resource_usage": {
+                "cpu": "90%",
+                "ram": "65%",
+                "storage": "55%"
+            }
+        }
+    ],
+    "error": [
+        {
+            "timestamp": "2024-04-30T08:20:10",
+            "event_type": "error",
+            "message": "Tentative de connexion infructueuse",
+            "user_id": "admin",
+            "ip_address": "203.0.113.5",
+            "request_params": {
+                "username": "admin",
+                "password": "****"
+            },
+            "http_status_code": 401,
+            "resource_usage": {
+                "cpu": "92%",
+                "ram": "68%",
+                "storage": "57%"
+            }
+        },
+        {
+            "timestamp": "2024-04-30T08:22:55",
+            "event_type": "error",
+            "message": "Erreur lors de l'acc\u00c3\u00a8s \u00c3\u00a0 la base de donn\u00c3\u00a9es",
+            "user_id": "system_db",
+            "ip_address": "192.168.1.20",
+            "request_params": {
+                "query": "SELECT * FROM users"
+            },
+            "http_status_code": 500,
+            "resource_usage": {
+                "cpu": "95%",
+                "ram": "70%",
+                "storage": "60%"
+            }
+        }
+    ],
+    "info": [
+        {
+            "timestamp": "2024-04-30T08:18:45",
+            "event_type": "info",
+            "message": "Sauvegarde automatique des donn\u00c3\u00a9es effectu\u00c3\u00a9e avec succ\u00c3\u00a8s",
+            "user_id": "System",
+            "resource_usage": {
+                "cpu": "30%",
+                "ram": "63%",
+                "storage": "55%"
+            }
+        },
+        {
+            "timestamp": "2024-04-30T08:20:10",
+            "event_type": "info",
+            "message": "Mise \u00c3\u00a0 jour du logiciel effectu\u00c3\u00a9e",
+            "user_id": "System",
+            "resource_usage": {
+                "cpu": "25%",
+                "ram": "64%",
+                "storage": "56%"
+            }
+        }
+    ],
+    "debug": [
+        {
+            "timestamp": "2024-04-30T08:22:55",
+            "event_type": "debug",
+            "message": "Requ\u00c3\u00aate de recherche trait\u00c3\u00a9e",
+            "user_id": "guest",
+            "ip_address": "192.168.1.50",
+            "request_params": {
+                "query": "apple"
+            },
+            "http_status_code": 200,
+            "resource_usage": {
+                "cpu": "35%",
+                "ram": "65%",
+                "storage": "58%"
+            }
+        }
+    ]
+}

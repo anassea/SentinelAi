@@ -1,0 +1,16 @@
+/* styles.css */
+
+.normal {
+    background-color: green;
+    color: white;
+}
+
+.medium {
+    background-color: yellow;
+    color: black;
+}
+
+.critical {
+    background-color: red;
+    color: white;
+}

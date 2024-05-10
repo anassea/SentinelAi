@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIEM Report</title>
+</head>
+<body>
+    <h1>SIEM Report</h1>
+
+    <h2>Aggregated Data</h2>
+    <ul>
+        {% for event_type, count in aggregated_data.items() %}
+            <li>{{ event_type }}: {{ count }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>IP Count</h2>
+    <ul>
+        {% for ip, count in ip_count.items() %}
+            <li>{{ ip }}: {{ count }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Authentication Methods</h2>
+    <ul>
+        {% for method, count in authentication_methods.items() %}
+            <li>{{ method }}: {{ count }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Failed Authentication Users</h2>
+    <ul>
+        {% for user in failed_authentication_users %}
+            <li>{{ user }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

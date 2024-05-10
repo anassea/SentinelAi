@@ -1,0 +1,73 @@
+/* Reset CSS */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Définition d'une couleur de fond globale pour l'application */
+body {
+  background-color: #f0f0f0;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Centrage du contenu principal de l'application */
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Utilisation de 100vh pour une hauteur de viewport */
+}
+
+/* Style de l'en-tête de l'application */
+.App-header {
+  background-color: #282c34;
+  padding: 20px;
+  border-bottom: 2px solid #61dafb; /* Ajout d'une bordure en bas de l'en-tête */
+  width: 100%; /* Étirement de l'en-tête sur toute la largeur */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ajout d'une ombre légère */
+  display: flex;
+  align-items: center;
+}
+
+/* Style de l'icône de cadenas */
+.lock-icon {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background-image: url('téléchargement.png'); /* Remplacez 'lock-icon.png' par le chemin de votre icône de cadenas */
+  background-size: cover;
+  margin-right: 10px;
+}
+
+/* Style du titre de l'application */
+.App-title {
+  font-size: 24px;
+  margin: 0;
+  color: white;
+}
+
+/* Style du lien dans l'en-tête de l'application */
+.App-link {
+  color: #61dafb;
+  text-decoration: none;
+}
+
+.App-link:hover {
+  text-decoration: underline;
+}
+
+/* Ajout de styles de sécurité à l'en-tête de l'application */
+
+/* Définition d'une couleur de fond pour l'en-tête de sécurité */
+.App-header.secure {
+  background-color: #4CAF50; /* Vert associé à la sécurité */
+}
+
+/* Style du texte indiquant la sécurité */
+.security-text {
+  font-size: 18px;
+  color: white;
+}

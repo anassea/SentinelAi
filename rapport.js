@@ -1,0 +1,1 @@
+var data = {"aggregatedData": {"success": 4, "warning": 1, "error": 2, "info": 2, "debug": 1}, "ipCount": {"203.0.113.5": 3, "192.168.1.10": 2, "192.168.1.2": 1, "192.168.1.20": 1, "Unknown": 2, "192.168.1.50": 1}, "authenticationMethods": {"john.doe": 2, "Unknown": 4, "admin": 1}, "failedAuthenticationUsers": ["system_db", "admin"]}

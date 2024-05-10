@@ -1,0 +1,41 @@
+Date: 2024-04-20
+Time: 13:45:22
+Event Type: Authentication Success
+User: johndoe
+Source IP: 192.168.1.100
+Authentication Method: Password
+
+Date: 2024-04-20
+Time: 14:20:15
+Event Type: Authentication Success
+User: janedoe
+Source IP: 192.168.1.101
+Authentication Method: SSH Key
+
+Date: 2024-04-20
+Time: 15:05:33
+Event Type: Authentication Failure
+User: admin
+Source IP: 192.168.1.102
+Authentication Method: Password
+
+Date: 2024-04-20
+Time: 15:30:42
+Event Type: Authentication Success
+User: sarahsmith
+Source IP: 192.168.1.103
+Authentication Method: Two-factor Authentication
+
+Date: 2024-04-20
+Time: 16:10:55
+Event Type: Authentication Failure
+User: bobjones
+Source IP: 192.168.1.104
+Authentication Method: Password
+
+Date: 2024-04-20
+Time: 16:35:12
+Event Type: Authentication Success
+User: alicebrown
+Source IP: 192.168.1.105
+Authentication Method: Biometric
