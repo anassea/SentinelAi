@@ -25,12 +25,21 @@ function ReponseIncidents() {
   const tableStyle = {
     width: '100%',
     borderCollapse: 'collapse',
+    backgroundColor: '#ffffff', // Arrière-plan blanc
   };
 
   const thTdStyle = {
-    border: '1px solid black',
+    borderLeft: '1px solid black', // Bordure à gauche
+    borderRight: '1px solid black', // Bordure à droite
+    borderBottom: '1px solid black', // Bordure en bas
     padding: '8px',
     textAlign: 'left',
+  };
+
+  const headerRowStyle = {
+    backgroundColor: '#5844E7',
+    color: 'white',
+    border: '1px solid black', // Bordure sur tous les côtés pour la ligne d'en-tête
   };
 
   return (
@@ -39,18 +48,24 @@ function ReponseIncidents() {
       {recommendations.length > 0 ? (
         <table style={tableStyle}>
           <thead>
-            <tr>
-              <th style={thTdStyle}>Type</th>
-              <th style={thTdStyle}>Recommendation</th>
+            <tr style={headerRowStyle}>
               <th style={thTdStyle}>Time</th>
+              <th style={thTdStyle}>Type</th>
+              <th style={thTdStyle}>Message</th>
+              <th style={thTdStyle}>User ID</th>
+              <th style={thTdStyle}>IP Address</th>
+              <th style={thTdStyle}>Recommendation</th>
             </tr>
           </thead>
           <tbody>
             {recommendations.map((rec, index) => (
-              <tr key={rec.ID || index}>
-                <td style={thTdStyle}>{rec.event_type}</td>
-                <td style={thTdStyle}>{rec.recommendation}</td>
-                <td style={thTdStyle}>{rec.timestamp}</td>
+              <tr key={rec.ID || index} style={thTdStyle}>
+                <td>{rec.timestamp}</td>
+                <td>{rec.event_type}</td>
+                <td>{rec.message}</td>
+                <td>{rec.user_id}</td>
+                <td>{rec.ip_address}</td>
+                <td>{rec.recommendation}</td>
               </tr>
             ))}
           </tbody>
